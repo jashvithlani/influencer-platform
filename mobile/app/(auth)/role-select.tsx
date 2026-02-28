@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, fontSize, spacing, borderRadius } from '../../src/theme';
+import { tokens, fontSize, spacing, borderRadius } from '../../src/theme';
 
 export default function RoleSelectScreen() {
   const router = useRouter();
@@ -17,7 +17,7 @@ export default function RoleSelectScreen() {
         onPress={() => router.push({ pathname: '/(auth)/register', params: { role: 'brand' } })}
         activeOpacity={0.8}
       >
-        <Ionicons name="business-outline" size={40} color={colors.primary} />
+        <Ionicons name="business-outline" size={40} color={tokens.color.accent} />
         <Text style={styles.cardTitle}>Brand / Marketer</Text>
         <Text style={styles.cardDesc}>Find and collaborate with influencers for your marketing campaigns</Text>
       </TouchableOpacity>
@@ -27,7 +27,7 @@ export default function RoleSelectScreen() {
         onPress={() => router.push({ pathname: '/(auth)/register', params: { role: 'influencer' } })}
         activeOpacity={0.8}
       >
-        <Ionicons name="person-outline" size={40} color={colors.secondary} />
+        <Ionicons name="person-outline" size={40} color={tokens.color.success} />
         <Text style={styles.cardTitle}>Creator / Influencer</Text>
         <Text style={styles.cardDesc}>Discover brand partnerships and grow your creator business</Text>
       </TouchableOpacity>
@@ -40,16 +40,16 @@ export default function RoleSelectScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background, padding: spacing.lg, justifyContent: 'center' },
-  title: { fontSize: fontSize.hero, fontWeight: '800', color: colors.text, textAlign: 'center' },
-  subtitle: { fontSize: fontSize.md, color: colors.textSecondary, textAlign: 'center', marginTop: spacing.sm, marginBottom: spacing.xl },
+  container: { flex: 1, backgroundColor: tokens.color.bg, padding: spacing.lg, justifyContent: 'center' },
+  title: { fontSize: fontSize.hero, fontWeight: '800', color: tokens.color.textPrimary, textAlign: 'center' },
+  subtitle: { fontSize: fontSize.md, color: tokens.color.textSecondary, textAlign: 'center', marginTop: spacing.sm, marginBottom: spacing.xl },
   card: {
-    backgroundColor: colors.surface, borderRadius: borderRadius.lg, padding: spacing.lg,
+    backgroundColor: tokens.color.bgCard, borderRadius: borderRadius.lg, padding: spacing.lg,
     marginBottom: spacing.md, alignItems: 'center',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2,
+    borderWidth: 1, borderColor: tokens.color.border,
   },
-  cardTitle: { fontSize: fontSize.lg, fontWeight: '700', color: colors.text, marginTop: spacing.md },
-  cardDesc: { fontSize: fontSize.sm, color: colors.textSecondary, textAlign: 'center', marginTop: spacing.xs },
+  cardTitle: { fontSize: fontSize.lg, fontWeight: '700', color: tokens.color.textPrimary, marginTop: spacing.md },
+  cardDesc: { fontSize: fontSize.sm, color: tokens.color.textSecondary, textAlign: 'center', marginTop: spacing.xs },
   back: { alignItems: 'center', marginTop: spacing.lg },
-  backText: { color: colors.primary, fontWeight: '600', fontSize: fontSize.md },
+  backText: { color: tokens.color.accent, fontWeight: '600', fontSize: fontSize.md },
 });

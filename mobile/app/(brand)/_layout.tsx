@@ -1,44 +1,62 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../../src/theme';
+import { Platform } from 'react-native';
+import { tokens } from '../../src/theme';
 
 export default function BrandLayout() {
   return (
     <Tabs screenOptions={{
-      tabBarActiveTintColor: colors.primary,
-      tabBarInactiveTintColor: colors.textLight,
+      tabBarActiveTintColor: tokens.color.tabActive,
+      tabBarInactiveTintColor: tokens.color.tabInactive,
       headerShown: false,
-      tabBarStyle: { borderTopColor: colors.border },
+      tabBarStyle: {
+        backgroundColor: tokens.color.tabBg,
+        borderTopWidth: 1,
+        borderTopColor: tokens.color.tabBorder,
+        ...(Platform.OS === 'web' ? {
+          height: 72,
+          paddingBottom: 12,
+          paddingTop: 8,
+          position: 'relative' as const,
+        } : {}),
+      },
+      tabBarLabelStyle: {
+        fontFamily: tokens.font.family.semibold,
+        fontSize: 12,
+      },
     }}>
       <Tabs.Screen
         name="dashboard"
         options={{
-          title: 'Dashboard',
-          tabBarIcon: ({ color, size }) => <Ionicons name="grid-outline" size={size} color={color} />,
+          title: 'Home',
+          tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="search"
         options={{
-          title: 'Search',
-          tabBarIcon: ({ color, size }) => <Ionicons name="search-outline" size={size} color={color} />,
+          title: 'Discover',
+          tabBarIcon: ({ color, size }) => <Ionicons name="search" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="campaigns"
+        name="campaigns/index"
         options={{
           title: 'Campaigns',
-          tabBarIcon: ({ color, size }) => <Ionicons name="megaphone-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="briefcase" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="saved-lists"
         options={{
           title: 'Saved',
-          tabBarIcon: ({ color, size }) => <Ionicons name="bookmark-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="heart" size={size} color={color} />,
         }}
       />
-      <Tabs.Screen name="influencer" options={{ href: null }} />
+      {/* Hide detail/create screens from tab bar */}
+      <Tabs.Screen name="campaigns/create" options={{ href: null }} />
+      <Tabs.Screen name="campaigns/[id]" options={{ href: null }} />
+      <Tabs.Screen name="influencer/[id]" options={{ href: null }} />
     </Tabs>
   );
 }

@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Input } from '../../src/components/ui/Input';
 import { Button } from '../../src/components/ui/Button';
 import { useAuthStore } from '../../src/stores/authStore';
-import { colors, fontSize, spacing } from '../../src/theme';
+import { tokens, fontSize, spacing } from '../../src/theme';
 
 export default function RegisterScreen() {
   const { role } = useLocalSearchParams<{ role: string }>();
@@ -28,7 +28,15 @@ export default function RegisterScreen() {
       await register(email, password, role || 'influencer', extra);
       router.replace('/');
     } catch (e: any) {
-      setError(e.response?.data?.detail || 'Registration failed');
+      if (e.response?.data?.detail) {
+        setError(e.response.data.detail);
+      } else if (e.code === 'ERR_NETWORK' || e.message === 'Network Error') {
+        setError('Cannot connect to server. Make sure the API is running on port 8000.');
+      } else if (e.code === 'ECONNABORTED') {
+        setError('Request timed out. Please try again.');
+      } else {
+        setError(e.message || 'An unexpected error occurred. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -76,9 +84,9 @@ export default function RegisterScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
+  container: { flex: 1, backgroundColor: tokens.color.bg },
   scroll: { flexGrow: 1, justifyContent: 'center', padding: spacing.lg },
-  title: { fontSize: fontSize.xxl, fontWeight: '800', color: colors.text, textAlign: 'center' },
-  subtitle: { fontSize: fontSize.md, color: colors.textSecondary, textAlign: 'center', marginTop: spacing.xs, marginBottom: spacing.xl },
-  error: { color: colors.error, fontSize: fontSize.sm, marginBottom: spacing.md, textAlign: 'center' },
+  title: { fontSize: fontSize.xxl, fontWeight: '800', color: tokens.color.textPrimary, textAlign: 'center' },
+  subtitle: { fontSize: fontSize.md, color: tokens.color.textSecondary, textAlign: 'center', marginTop: spacing.xs, marginBottom: spacing.xl },
+  error: { color: tokens.color.error, fontSize: fontSize.sm, marginBottom: spacing.md, textAlign: 'center' },
 });

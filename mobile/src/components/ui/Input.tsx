@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TextInput, Text, StyleSheet, TextInputProps } from 'react-native';
-import { colors, borderRadius, fontSize, spacing } from '../../theme';
+import { tokens, borderRadius, fontSize, spacing } from '../../theme';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -13,7 +13,7 @@ export function Input({ label, error, style, ...props }: InputProps) {
       {label && <Text style={styles.label}>{label}</Text>}
       <TextInput
         style={[styles.input, error && styles.inputError, style]}
-        placeholderTextColor={colors.textLight}
+        placeholderTextColor={tokens.color.inputPlaceholder}
         {...props}
       />
       {error && <Text style={styles.error}>{error}</Text>}
@@ -26,27 +26,28 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   label: {
+    fontFamily: tokens.font.family.semibold,
     fontSize: fontSize.sm,
-    fontWeight: '600',
-    color: colors.text,
+    color: tokens.color.inputLabel,
     marginBottom: spacing.xs,
   },
   input: {
-    backgroundColor: colors.surface,
+    fontFamily: tokens.font.family.regular,
+    backgroundColor: tokens.color.inputBg,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: tokens.color.inputBorder,
     borderRadius: borderRadius.md,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md - 2,
     fontSize: fontSize.md,
-    color: colors.text,
+    color: tokens.color.inputText,
   },
   inputError: {
-    borderColor: colors.error,
+    borderColor: tokens.color.inputError,
   },
   error: {
     fontSize: fontSize.xs,
-    color: colors.error,
+    color: tokens.color.inputError,
     marginTop: spacing.xs,
   },
 });

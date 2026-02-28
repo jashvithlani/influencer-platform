@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, ViewStyle, TextStyle } from 'react-native';
-import { colors, borderRadius, fontSize, spacing } from '../../theme';
+import { tokens, borderRadius, fontSize, spacing } from '../../theme';
 
 interface ButtonProps {
   title: string;
@@ -39,7 +39,7 @@ export function Button({
       activeOpacity={0.7}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'outline' || variant === 'ghost' ? colors.primary : '#fff'} />
+        <ActivityIndicator color={variant === 'outline' || variant === 'ghost' ? tokens.color.textPrimary : tokens.color.buttonPrimaryText} />
       ) : (
         <Text style={[styles.text, styles[`text_${variant}`], styles[`textSize_${size}`], textStyle]}>
           {title}
@@ -56,15 +56,15 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.md,
   },
   primary: {
-    backgroundColor: colors.primary,
+    backgroundColor: tokens.color.buttonPrimaryBg,
   },
   secondary: {
-    backgroundColor: colors.secondary,
+    backgroundColor: tokens.color.buttonSecondaryBg,
   },
   outline: {
     backgroundColor: 'transparent',
     borderWidth: 1.5,
-    borderColor: colors.primary,
+    borderColor: tokens.color.buttonOutlineBorder,
   },
   ghost: {
     backgroundColor: 'transparent',
@@ -85,19 +85,19 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   text: {
-    fontWeight: '600',
+    fontFamily: tokens.font.family.semibold,
   },
   text_primary: {
-    color: '#FFFFFF',
+    color: tokens.color.buttonPrimaryText,
   },
   text_secondary: {
-    color: '#FFFFFF',
+    color: tokens.color.buttonSecondaryText,
   },
   text_outline: {
-    color: colors.primary,
+    color: tokens.color.buttonOutlineText,
   },
   text_ghost: {
-    color: colors.primary,
+    color: tokens.color.textPrimary,
   },
   textSize_sm: {
     fontSize: fontSize.sm,
