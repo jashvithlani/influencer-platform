@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import * as SecureStore from 'expo-secure-store';
+import { getItem, setItem, deleteItem } from '../api/storage';
 import api from '../api/client';
 import type { User, InfluencerProfile, BrandProfile, MeResponse } from '../types/api';
 
@@ -22,8 +22,8 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   login: async (email, password) => {
     const { data } = await api.post('/api/v1/auth/login', { email, password });
-    await SecureStore.setItemAsync('access_token', data.access_token);
-    await SecureStore.setItemAsync('refresh_token', data.refresh_token);
+    await setItem('access_token', data.access_token);
+    await setItem('refresh_token', data.refresh_token);
     const me = await api.get<MeResponse>('/api/v1/auth/me');
     set({ user: me.data.user, profile: me.data.profile, isAuthenticated: true });
   },
@@ -35,21 +35,21 @@ export const useAuthStore = create<AuthState>((set) => ({
       role,
       ...extra,
     });
-    await SecureStore.setItemAsync('access_token', data.access_token);
-    await SecureStore.setItemAsync('refresh_token', data.refresh_token);
+    await setItem('access_token', data.access_token);
+    await setItem('refresh_token', data.refresh_token);
     const me = await api.get<MeResponse>('/api/v1/auth/me');
     set({ user: me.data.user, profile: me.data.profile, isAuthenticated: true });
   },
 
   logout: async () => {
-    await SecureStore.deleteItemAsync('access_token');
-    await SecureStore.deleteItemAsync('refresh_token');
+    await deleteItem('access_token');
+    await deleteItem('refresh_token');
     set({ user: null, profile: null, isAuthenticated: false });
   },
 
   loadUser: async () => {
     try {
-      const token = await SecureStore.getItemAsync('access_token');
+      const token = await getItem('access_token');
       if (token) {
         const { data } = await api.get<MeResponse>('/api/v1/auth/me');
         set({ user: data.user, profile: data.profile, isAuthenticated: true, isLoading: false });

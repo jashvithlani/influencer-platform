@@ -5,7 +5,12 @@ dev: dev-db dev-api
 
 # Start just Postgres
 dev-db:
-	docker compose up -d db
+	docker run -d --name influencer-pg \
+		-e POSTGRES_USER=platform \
+		-e POSTGRES_PASSWORD=platform_secret \
+		-e POSTGRES_DB=influencer_platform \
+		-p 5432:5432 \
+		postgres:16-alpine || docker start influencer-pg
 	@echo "Waiting for Postgres..."
 	@sleep 3
 	@echo "Postgres ready on port 5432"
@@ -28,15 +33,15 @@ test:
 
 # Docker compose up (full stack)
 up:
-	docker compose up --build -d
+	docker-compose up --build -d
 
 # Docker compose down
 down:
-	docker compose down
+	docker-compose down
 
 # Clean everything
 clean:
-	docker compose down -v
+	docker-compose down -v
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 
 # Start mobile app
